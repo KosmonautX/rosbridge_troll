@@ -7,7 +7,12 @@ defmodule TrollWeb.OperationLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-      {:ok, socket |> assign(:operations, list_operations())}
+      {:ok, socket |> assign(:operations, list_operations()
+      |> Enum.group_by(&Map.get(&1, :op_id))
+      |> Enum.sort_by(&elem(&1, 1)
+      |> List.first()
+      |> Map.get(:inserted_at), :desc)
+        )}
    end
 
   @impl true
@@ -23,7 +28,7 @@ defmodule TrollWeb.OperationLive.Index do
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Operation")
+    |> assign(:page_title, "Choose your Destination")
     |> assign(:operation, %Operation{})
   end
 

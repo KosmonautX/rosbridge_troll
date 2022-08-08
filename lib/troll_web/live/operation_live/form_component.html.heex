@@ -8,14 +8,13 @@
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save">
-  
-    <%= label f, "Operation" %>
-    <%= text_input f, :op %>
+
+    <%= hidden_input f, :op , value: "publish"%>
     <%= error_tag f, :op %>
 
     <%= inputs_for f, :msg, fn msgs -> %>
     <%= label msgs, "Destination" %>
-      <%= text_input msgs, :data %>
+      <%= select msgs, :data, ["E01", "E04", "E05", "S01", "S06", "S07"] %>
       <%= error_tag msgs, :data %>
    <% end %>
 
