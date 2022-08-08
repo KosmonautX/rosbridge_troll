@@ -1,0 +1,36 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="operation-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+  
+    <%= label f, "Operation" %>
+    <%= text_input f, :op %>
+    <%= error_tag f, :op %>
+
+    <%= inputs_for f, :msg, fn msgs -> %>
+    <%= label msgs, "Destination" %>
+      <%= text_input msgs, :data %>
+      <%= error_tag msgs, :data %>
+   <% end %>
+
+    <%= hidden_input f, :id, value: Ecto.UUID.generate()%>
+    <%= error_tag f, :id %>
+
+    <%= hidden_input f, :topic , value: "destination"%>
+    <%= error_tag f, :topic %>
+
+    <%= hidden_input f, :type , value: "std_msgs/String"%>
+    <%= error_tag f, :type %>
+
+  
+    <div>
+      <%= submit "Command", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>

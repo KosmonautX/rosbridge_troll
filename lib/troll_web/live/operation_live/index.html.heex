@@ -1,0 +1,45 @@
+<h1>Operation Logs</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <!-- <.modal return_to={Routes.operation_index_path(@socket, :index)}> -->
+    <.live_component
+      module={TrollWeb.OperationLive.FormComponent}
+      id={@operation.op_id || :new}
+      title={@page_title}
+      action={@live_action}
+      operation={@operation}
+      return_to={Routes.operation_index_path(@socket, :index)}
+    />
+<!--  </.modal> -->
+<% end %>
+
+<span><%= live_patch "Launch Operation", to: Routes.operation_index_path(@socket, :new) %></span>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>Destination</th>
+      <th>Topic</th>
+      <th>Type</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="operations">
+    <%= for operation <- @operations do %>
+      <tr id={"operation-#{operation.id}"}>
+        <td><%= operation.op %></td>
+        <td><%= if operation.msg, do: operation.msg.data %></td>
+        <td><%= operation.topic %></td>
+        <td><%= operation.type %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.operation_show_path(@socket, :show, operation.op_id) %></span>
+          <span><%= live_patch "Edit", to: Routes.operation_index_path(@socket, :edit, operation.op_id) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: operation.op_id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

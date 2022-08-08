@@ -1,0 +1,41 @@
+<h1>Show Operation</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.operation_show_path(@socket, :show, @operation.op_id)}>
+    <.live_component
+      module={TrollWeb.OperationLive.FormComponent}
+      id={@operation}
+      title={@page_title}
+      action={@live_action}
+      operation={@operation}
+      return_to={Routes.operation_show_path(@socket, :show, @operation)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Op:</strong>
+    <%= @operation.op %>
+  </li>
+
+  <li>
+    <strong>Id:</strong>
+    <%= @operation.id %>
+  </li>
+
+  <li>
+    <strong>Topic:</strong>
+    <%= @operation.topic %>
+  </li>
+
+  <li>
+    <strong>Type:</strong>
+    <%= @operation.type %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.operation_show_path(@socket, :edit, @operation.op_id), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.operation_index_path(@socket, :index) %></span>
