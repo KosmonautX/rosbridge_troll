@@ -6,13 +6,16 @@ defmodule TrollWeb.OperationLive.Index do
   alias Troll.Bridge
 
   @impl true
+  @topic "operation"
   def mount(_params, _session, socket) do
+    if connected?(socket), do: Troll.BridgeComm.subscribe(@topic)
       {:ok, socket |> assign(:operations, list_operations()
       |> Enum.group_by(&Map.get(&1, :op_id))
       |> Enum.sort_by(&elem(&1, 1)
       |> List.first()
       |> Map.get(:inserted_at), :desc)
-        )}
+        )
+      |> assign(:operator, nil)}
    end
 
   @impl true

@@ -14,7 +14,7 @@ config :troll,
 config :troll, TrollWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: TrollWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Troll.PubSub,
+  pubsub_server: :pubsub,
   live_view: [signing_salt: "W8kBcogp"]
 
 # Configures the mailer

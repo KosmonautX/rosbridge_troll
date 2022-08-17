@@ -27,6 +27,12 @@
     <%= hidden_input f, :type , value: "std_msgs/String"%>
     <%= error_tag f, :type %>
 
+    <%= if @operator do  %>
+
+    <%= hidden_input f, :operator_name , value: @operator.name%>
+    <%= error_tag f, :operator_name %>
+
+    <% end  %>
   
     <div>
       <%= submit "Command", phx_disable_with: "Saving..." %>

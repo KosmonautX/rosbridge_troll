@@ -9,6 +9,7 @@ defmodule Troll.Protocol.Operation do
     field :id, Ecto.UUID
     field :topic, :string
     field :type, :string
+    belongs_to :operator, Troll.Users.User, foreign_key: :operator_name
     embeds_one :msg, Troll.Protocol.Message, on_replace: :delete
 
     timestamps()
@@ -17,7 +18,7 @@ defmodule Troll.Protocol.Operation do
   @doc false
   def changeset(operation, attrs) do
     operation
-    |> cast(attrs, [:op, :id, :topic, :type])
+    |> cast(attrs, [:op, :id, :topic, :type, :operator_name])
     |> cast_embed(:msg)
     |> validate_required([:op, :topic])
   end
@@ -25,7 +26,7 @@ defmodule Troll.Protocol.Operation do
   def publish(operation, attrs) do
     operation
     |> Map.put(:op, :publish)
-    |> cast(attrs, [:id, :topic])
+    |> cast(attrs, [:id, :topic, :operator_name])
     |> cast_embed(:msg)
     |> validate_required([:op, :topic, :msg])
   end
@@ -33,7 +34,7 @@ defmodule Troll.Protocol.Operation do
   def advertise(operation, attrs) do
     operation
     |> Map.put(:op, :advertise)
-    |> cast(attrs, [:id, :topic, :type])
+    |> cast(attrs, [:id, :topic, :type, :operator_name])
     |> validate_required([:op, :topic, :type])
   end
 end

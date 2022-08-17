@@ -1,4 +1,4 @@
-<h1>Operation Dashboard</h1>
+<h1>Welcome to the Operation Dashboard <%= if @operator, do: @operator.name %> !</h1>
 
 <%= if @live_action in [:new, :edit] do %>
   <!-- <.modal return_to={Routes.operation_index_path(@socket, :index)}> -->
@@ -8,6 +8,7 @@
       title={@page_title}
       action={@live_action}
       operation={@operation}
+      operator={@operator}
       return_to={Routes.operation_index_path(@socket, :index)}
     />
 <!--  </.modal> -->

@@ -13,7 +13,7 @@ defmodule Troll.Application do
       # Start the Telemetry supervisor
       TrollWeb.Telemetry,
       # Start the PubSub system
-      {Phoenix.PubSub, name: Troll.PubSub},
+      {Phoenix.PubSub, name: :pubsub},
       # Start the Endpoint (http/https)
       TrollWeb.Endpoint,
       # Start a worker by calling: Troll.Worker.start_link(arg)
