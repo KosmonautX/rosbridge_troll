@@ -4,7 +4,7 @@ defmodule TrollWeb.OperationLive.Index do
   alias Troll.Protocol
   alias Troll.Protocol.Operation
   alias Troll.Bridge
-
+  alias Troll.Users
   @impl true
   @topic "operation"
   def mount(_params, _session, socket) do
@@ -47,6 +47,13 @@ defmodule TrollWeb.OperationLive.Index do
     {:ok, _} = Protocol.delete_operation(operation)
 
     {:noreply, assign(socket, :operations, list_operations())}
+  end
+
+  @impl true
+  def handle_info({:pubsub, {:operator, :detected}, operator_id}, socket) do
+    {:noreply, socket
+    |> assign(operator: Users.get_user!(operator_id))
+    |> assign(operator_ops: Protocol.list_operations_by_operator(operator_id))}
   end
 
   defp list_operations do

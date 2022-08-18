@@ -17,8 +17,22 @@ defmodule Troll.Protocol do
       [%Operation{}, ...]
 
   """
-  def list_operations do
-    Repo.all(Operation)
+  def list_operations, do: Repo.all(Operation)
+
+  @doc """
+  Returns the list of operations by operator.
+
+  ## Examples
+
+      iex> list_operations()
+      [%Operation{}, ...]
+
+  """
+  def list_operations_by_operator(operator_id) do
+    Operation
+    |> where([e], e.operator_id == ^operator_id)
+    |> order_by([e], desc: e.inserted_at)
+    |> Repo.all()
   end
 
   @doc """
